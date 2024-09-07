@@ -17,5 +17,6 @@ export default defineConfig({
     socialLinks: [
       { icon: 'github', link: 'https://github.com/raining976' }
     ]
+    math: true, // 允许数学表达式 插件：npm add -D markdown-it-mathjax3
   }
 })
