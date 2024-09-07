@@ -163,3 +163,139 @@ console.log(Object.assign([1,2,3],[4,5]))
 
 使用指定的原型对象和新的属性创建对象，第二个参数为创建的对象的自身属性
 
+```javascript
+var parent = {
+    x: 1,
+    y: 2
+}
+var child = Object.create(parent, {
+    z:{
+        writable:true,
+        configurable:true,
+        enumerable: true, // 如果不加这个是否可枚举 无法通过打印child打印出该属性
+        value: "newAdd"
+    }
+})
+
+console.log('child',child) // child { z: 'newAdd' }
+console.log('child.x',child.x) // child.x 1
+```
+
+> [!NOTE]
+>
+> 这里使用属性对象添加时，是否可枚举默认是false，如果不指定为true， 直接打印child不会打印z属性
+
+#### Object.values()
+
+#### Object.keys()
+
+```javascript
+const arr = ['a', 'b', 'c']
+Object.keys(arr) // ['0','1','2']
+```
+
+#### Object.entries(obj)
+
+返回一个对象中可枚举属性的键值对数组，与for in返回的顺序一致，区别在于**for in可以枚举原型中的属性**
+
+```javascript
+const obj = { foo: 'bar', baz: 42 };
+console.log(Object.entries(obj)); // [ ['foo', 'bar'], ['baz', 42] ]
+
+const simuArray = { 0: 'a', 1: 'b', 2: 'c' };
+console.log(Object.entries(simuArray)); // [ ['0', 'a'], ['1', 'b'], ['2', 'c'] ]
+```
+
+#### Object.fromEntries(obj)
+
+把键值对数组转为一个对象，相当于上一个函数的逆过程
+
+#### Object.prototype.hasOwnProperty(key)
+
+判断对象自身属性中是否含有key属性:`obj.hasOwnProperty(keyname)`
+
+该函数是Object原型上的函数，可以判断一个属性是否是该对象的自身属性。
+
+> [!TIP]
+> `hasOwnProperty(keyname)`是javascript唯一一个<u>处理属性但是不访问原型链</u>的函数
+
+
+
+#### Object.getOwnPropertyNames(obj)
+
+返回一个指定对象的所有属性名的数组，包括不可枚举属性，但是不包括Symbol值作为名称的属性
+
+相比于Object.keys只能返回可枚举属性。
+
+> [!NOTE]
+>
+> Object.keys和Object.getOwnPropertyNames返回的键是按照<u>字典顺序排列的，而不是初始顺序</u>
+
+```javascript
+const obj2 = {
+    '1': 2,
+    'a': 5,
+    'e': 'hello',
+    'b': 'world',
+    '3': 3,
+    '2': 10,
+}
+
+console.log('Object.keys(obj2)',Object.keys(obj2))
+// Object.keys(obj2) [ '1', '2', '3', 'a', 'e', 'b' ]
+
+console.log('Object.getOwnPropertyNames(obj)',Object.getOwnPropertyNames(obj2))
+// Object.getOwnPropertyNames(obj) [ '1', '2', '3', 'a', 'e', 'b' ]
+```
+
+#### Object.setPrototype(obj, prototype)
+
+设置一个对象的原型
+
+等同于`obj.__proto__` = prototype
+
+#### Object.getPrototype(obj)
+
+获取一个对象的原型
+
+等同于`obj.__proto__`
+
+> [!tip]
+>
+> 上述两个方法，如果obj传入的不是对象，会自动转为对象
+
+#### Object.is(a,b)
+
+判断两个值是否相等
+
+```javascript
+Object.is('foo', 'foo');     // true
+Object.is(window, window);   // true
+
+Object.is('foo', 'bar');     // false
+Object.is([], []);           // false
+
+var test = { a: 1 };
+Object.is(test, test);       // true
+
+Object.is(null, null);       // true
+
+// 特例
+Object.is(0, -0);            // false
+Object.is(-0, -0);           // true
+Object.is(NaN, 0/0);         // true
+```
+
+#### Object.freeze(obj)
+
+返回一个冻结对象，不能向这个对象添加属性、删除已有的属性，不能修改该对象的可枚举性、可配执性、可写性
+
+也就是说冻结以后该对象就不能被修改了
+
+#### Object.isFreezen(obj)
+
+判断一个对象是否被冻结
+
+#### Object.preventExtensions(obj)
+
+返回的对象不能添加新的属性，可以修改和删除
