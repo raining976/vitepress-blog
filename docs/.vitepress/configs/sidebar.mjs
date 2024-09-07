@@ -1,8 +1,8 @@
 export default [
     {
         text: '前端面试',
-        link: '/font-end',
         collapsed: false,
+      
         items: [
             {
                 text: 'HTML基础',
