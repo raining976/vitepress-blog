@@ -3,8 +3,9 @@
 ## js基础
 ### new的原理
 #### 面向对象中new关键字
-new操作实质上是定一个具有构造函数内置对象的的实例。
+new操作实质上是定义一个具有构造函数内置对象的实例。
 具体分为以下四个步骤
+
 1. 新建一个空对象（obj）
 2. 将obj的__proto__属性链接到构造函数的原型上
 3. 使用fn.apply改变函数执行的上下文，也就是将函数此时this指向为obj
@@ -299,3 +300,295 @@ Object.is(NaN, 0/0);         // true
 #### Object.preventExtensions(obj)
 
 返回的对象不能添加新的属性，可以修改和删除
+
+### Event 对象
+
+点击等事件触发时，会产生一个event对象，并作为参数传递给发生函数。
+
+下面介绍事件对象的属性
+
+#### clientX/clientY
+
+只读属性。
+
+得到事件发生时，相对于客户端（可视区域）的坐标，左上角为（0，0）
+
+#### offsetX/offsetY
+
+只读属性。
+
+事件对象相对于目标节点包含padding的坐标，包含padding的左上角为原点
+
+#### screenX/screenY
+
+只读属性
+
+提供事件鼠标在屏幕中的坐标，相对于电脑屏幕
+
+### Node和Element
+
+两者是继承关系，Node有的属性Element都有
+
+![各层级关系](https://gitee.com/raining976/markdown-imgs/raw/master/img/UiC5P1W9KeQ7OHB.webp)
+
+通过document的选择器得到的dom既是Node也是Element
+
+```html
+<body>
+    <div class="father">
+        <div class="child1">1</div>
+        <div class="child2">2</div>
+    </div>
+</body>
+<script>
+    const father = document.querySelector('.father')
+    let isNode = father instanceof Node
+    let isEle = father instanceof Element
+
+    console.log('isNode',isNode) // true
+    console.log('isEle',isEle) // true
+</script>
+```
+
+#### element.children()和element.childNodes()
+
+`children()`只能得到目标节点的所有子盒子节点
+
+`childNodes()`能得到目标节点的所有节点（包括text文本节点）
+
+### 判断对象是否为空
+
+#### 使用JSON.stringify转为字符串与"{}"比较
+
+```javascript
+const obj = {}
+console.log(JSON.stringify(obj) == '{}') // true
+```
+
+#### for in循环判断
+
+```javascript
+const obj = {}
+function isEmptyObj(obj){
+  for(let o in obj){
+    return false
+  }
+  return true
+} 
+console.log(isEmptyObj(obj)) // true
+```
+
+#### Object.getOwnPropertyNames()
+
+```javascript
+const obj = {}
+console.log(Object.getOwnPropertyNames(obj).length == 0) // true
+```
+
+> [!warning] 注意
+>
+> 此方法不兼容ie8
+
+#### Object.keys().length == 0
+
+#### 如何创建一个空对象
+
+Object.create(null) 可以创建一个绝对的空对象，显式指定null为其原型，也就没有构造函数，没有任何属性
+
+### js遍历对象的顺序
+
+> [!tip]
+>
+> 如果必须按照插入顺序来遍历，使用Map数据结构
+
+以下遍历都按照一样的规则遍历，但是根据不同的key遍历的规则可能不同
+
+1. `Object.keys`
+2. `Object.entries`
+3. `Obejct.getOwnerProPertyNames`
+4. `Reflect.ownKeys`
+
+```javascript
+const obj = {}
+
+obj['10'] = 1
+obj[1]= 9
+obj[9]='1'
+obj['140'] = 1
+obj['20'] = 0
+
+console.log('obj',obj) // obj { '1': 9, '9': '1', '10': 1, '20': 0, '140': 1 }
+```
+
+可以看到，最终的遍历顺序并不是插入顺序，而是key按照数字的排序，并且在给对象添加属性的时候，即使我们的key是number类型，也会隐式转为String形式
+
+如果key不是可以转为正整数的形式，比如`-1`,`1.0`,`1.1`或者是其他类型的字符串，那么遍历顺序就是插入顺序。并且如果此时有的key是可以转为正整数的形式，那么这些就会优先遍历且按照升序顺序，其余的不可排序的都会按照插入顺序放到最后的位置遍历
+
+```javascript
+const obj = {}
+
+obj['12'] = 12
+obj['-'] = '-'
+obj['b'] = 'b'
+obj['10'] = 1
+obj['-1']='1'
+obj['1.0'] = 1
+obj['20'] = 0
+
+console.log('obj',obj)
+// obj { '10': 1, '12': 12, '20': 0, '-': '-', b: 'b', '-1': '1', '1.0': 1 }
+
+```
+
+另外，es6支持使用Symbol值作为key，这样能作为key的类型可以分成三类
+
+1. 可以转为正整数
+2. 其他不可转为正整数的类型
+3. Symbol类型
+
+如果对象属性中同时出现了这三种类型，那么遍历顺序就会如上述这样，先遍历可以排序的正整数，这部分顺序会重新排序，接下来是插入顺序的其他不可转为正整数的类型，最后才是插入顺序的Symbol类型
+
+### js创建对象的方式
+
+1. 直接字面量创建:`let obj = {}`
+2. 使用new关键字
+3. Object.create(obj, [properties])
+
+#### 实现一个create函数
+
+```javascript
+Object.mycreate = function(proto,properties) {
+    function F (){}
+    F.prototype = proto
+    let obj = new F() // obj 的原型属性指向了F的原型对象
+    if(properties) {
+      Object.defineProperties(obj, properties) // 为obj添加新的属性
+    }
+    return obj
+}
+  
+const obj = Object.mycreate({a: 11}, {mm: {value: 10}});
+console.log(obj.__proto__) // {a:11}
+
+```
+
+### JSON对象
+
+#### 什么是JSON对象
+
+#### JSON.parse()
+
+#### JSON.stringify()
+
+## 模块化
+
+## 事件循环机制
+
+### 事件循环的基本原理
+
+javascript语言是单线程语言，因此需要一个异步机制，JavaScript 有一个基于**事件循环**的并发模型，事件循环负责执行代码、收集和处理事件以及执行队列中的子任务。
+
+“执行至完成”：js事件循环有一个非常特殊的特点就是，每一个消息完整的执行后，其他消息才会被执行。也就是会执行时不会被抢占。
+
+任务队列被分为两种：宏任务队列和微任务队列
+
+- 宏任务：script、setTimeout、setInterval、setImmediate、I/O、UI render
+- 微任务：promisee.nextTick、promise、async/await、mutationObserver
+
+事件循环的执行流程
+
+1. 检查宏任务队列，弹出队头的队列执行，如果队列为空，则检查微任务队列
+2. 执行宏任务的过程中如果遇到了微任务则加入到微任务队列，遇到宏任务则加入宏任务对立
+3. 执行完一个宏任务后，检查微任务队列，并将微任务队列中的微任务全部执行完，如果在此过程生成了新的微任务,则加入到当前的微任务队列，并在此次事件循环中执行。
+4. 执行完所有的微任务后进入下一轮事件循环
+
+```javascript
+console.log('script中的语句1')
+
+setTimeout(function(){
+    console.log("第一个宏任务 语句1")
+    Promise.resolve().then(()=>{
+        console.log("第一个微任务")
+        Promise.resolve().then(()=>{
+            console.log("第一个微任务中的微任务")
+        })
+        console.log("第一个微任务中的语句2")
+    })
+    console.log("第一个宏任务中的语句2")
+},0)
+
+Promise.resolve().then(()=>{
+    console.log('第二个微任务')
+})
+console.log('script中的语句2')
+
+// 打印顺序：
+// 第二个宏任务
+// 第一个宏任务 语句1
+// 第一个宏任务中的语句2
+// 第一个微任务
+// 第一个微任务中的语句2
+// 第一个微任务中的微任务
+
+```
+
+可以看到我们在执行这段程序的时候实际上已经进入了一个宏任务，因此在执行完同步代码以后，要执行的应该是当前微任务队列中的微任务，这也是“第二个微任务”会被优先打印的原因。
+
+> [!note]
+>
+> promise的构造函数是在主线程执行的，也就是立即执行
+
+### await和async的执行顺序
+
+async声明的函数会隐式返回一个Promise对象，对于await，可以简单理解为，await后的函数会立即执行，执行完后会将当前async函数剩余部分作为一个微任务加入微任务队列，然后直接跳出该async函数，执行其他代码。
+
+```javascript
+
+    console.log('script start')
+
+    async function async1() {
+        console.log('async1 start')
+        await async2()
+        console.log('async1 end')
+    }
+
+    async function async2() {
+
+        console.log('async2 end')
+    }
+    async1()
+
+    setTimeout(function () {
+        console.log('setTimeout')
+    }, 0)
+
+    new Promise(resolve => {
+        console.log('Promise')
+        resolve()
+    })
+        .then(function () {
+            console.log('promise1')
+        })
+        .then(function () {
+            console.log('promise2')
+        })
+
+    console.log('script end')
+
+// 打印结果
+// script start
+// async1 start
+// async2 end
+// Promise
+// script end
+// async1 end
+// promise1
+// promise2
+// setTimout
+```
+
+### node环境中的事件循环
+
+node环境的事件循环和浏览器环境中也就是上述讲到的事件循环是完全不一样的东西。。。
+
+## 函数式编程
