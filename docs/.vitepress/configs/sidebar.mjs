@@ -1,24 +1,28 @@
 export default [
     {
-        text: '前端面试',
+        text: '前端基础',
         collapsed: false,
-      
+
         items: [
             {
                 text: 'HTML基础',
-                link: '/font-end/html-basic'
+                link: '/前端基础/html基础.md'
             },
             {
                 text: 'CSS基础',
-                link: "/font-end/css-basic"
+                link: "/前端基础/css基础.md"
             },
             {
                 text: 'JavaScript基础',
-                link: "/font-end/js-basic"
+                link: "/前端基础/js基础.md"
+            }, 
+            {
+                text:"JavaScript进阶",
+                link: "/前端基础/js进阶"
             },
             {
                 text: 'TODOs',
-                link: '/font-end/todo.md'
+                link: '/前端基础/todo.md'
             }
         ]
     }
