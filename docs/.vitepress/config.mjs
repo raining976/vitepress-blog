@@ -24,6 +24,10 @@ export default defineConfig({
       {
         text: '操作系统',
         link: "/操作系统/操作系统导论",
+      },
+      {
+        text:'OUC课程相关',
+        link:'/OUC课程相关/index'
       }
     ],
     sidebar,

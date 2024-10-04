@@ -5,13 +5,14 @@ import path from 'path';
 // 获取第一层目录
 const generateMainConfig = () => {
     const rootPath = path.resolve('./docs/src')
-    const dirs = fs.readdirSync(rootPath).filter(file=>{
+    const dirs = fs.readdirSync(rootPath).filter(file => {
         const fullPath = path.join(rootPath, file)
         return fs.statSync(fullPath).isDirectory()
     })
     const config = {}
     dirs.forEach(dir => {
-        config[`/${dir}/`] = generateSubSidebar(rootPath,dir)
+        if (dir != 'public')
+            config[`/${dir}/`] = generateSubSidebar(rootPath, dir)
     })
 
     return config
@@ -49,7 +50,7 @@ function generateSubSidebar(dirPath = './docs/src/', baseUrl = '') {
 }
 
 const config = generateMainConfig()
-console.log('config',config)
+// console.log('config',config)
 
 export default config;
 
