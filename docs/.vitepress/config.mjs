@@ -3,12 +3,21 @@ import sidebar from './configs/sidebar.mjs'
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
   title: "Ra1ning",
-  description: "Ra1ning的知识库 博客 前端",
+  description: "Ra1ning的小世界 博客 前端 Ra1ning的博客",
   head: [
     ['link', { rel: 'icon', href: '/logo.svg' }],
-    ['meta', { name: 'referrer', content: 'no-referrer' }] // 绕过gitee图床的防盗链
+    ['meta', { name: 'referrer', content: 'no-referrer' }], // 绕过gitee图床的防盗链
+    ['meta', { name: 'keywords', content: 'Ra1ning raining976 Raining HTML5 CSS JavaScript Vue 前端 操作系统 OUC' }],
+    ['meta', { name: 'rebots', content: 'index,follow'}],
+    ['meta', { name: 'googlebot', content: 'index,follow'}]
   ],
   srcDir: './src', // md源目录
+  outDir: "dist", 
+  vite: { 
+    // https://cn.vitejs.dev/config/shared-options.html#publicdir
+    publicDir: "../public", // 指定 public 目录路径
+  },
+  cleanUrls: true,
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     logo: '/logo.svg',
@@ -21,14 +30,17 @@ export default defineConfig({
       {
         text: '前端',
         link: '/前端/index',
+        activeMatch: '/前端/'
       },
       {
         text: '操作系统',
         link: "/操作系统/操作系统导论",
+        activeMatch: '/操作系统/'
       },
       {
         text: 'OUC课程相关',
-        link: '/OUC课程相关/index'
+        link: '/OUC课程相关/index',
+        activeMatch: '/OUC课程相关/'
       }
     ],
     sidebar,
@@ -61,6 +73,9 @@ export default defineConfig({
     search: {
       provider: 'local'
     },
+    sitemap: {
+      hostname: 'https://blog.raining976.top'
+    }
 
   },
   // markdown语法配置

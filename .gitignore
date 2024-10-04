@@ -3,3 +3,4 @@
 /docs/.vitepress/cache
 .vscode/settings.json
 .DS_Store
+docs/dist

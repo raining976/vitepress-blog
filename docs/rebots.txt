@@ -1,0 +1,4 @@
+User-agent: *
+Disallow: /contact/
+
+Sitemap: https://blog.raining976.top/sitemap.xml

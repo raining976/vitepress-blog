@@ -11,8 +11,7 @@ const generateMainConfig = () => {
     })
     const config = {}
     dirs.forEach(dir => {
-        if (dir != 'public')
-            config[`/${dir}/`] = generateSubSidebar(rootPath, dir)
+        config[`/${dir}/`] = generateSubSidebar(rootPath, dir)
     })
 
     return config
@@ -41,7 +40,7 @@ function generateSubSidebar(dirPath = './docs/src/', baseUrl = '') {
             const fileName = path.basename(file, '.md');
             config.push({
                 text: fileName == 'index' ? 'Ra1ning' : fileName,
-                link: path.join(baseUrl, file)
+                link: path.join(baseUrl, file),
             });
         }
     });
