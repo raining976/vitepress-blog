@@ -6,6 +6,7 @@ export default defineConfig({
   description: "Ra1ning的知识库 博客 前端",
   head: [
     ['link', { rel: 'icon', href: '/logo.svg' }],
+    ['meta', { name: 'referrer', content: 'no-referrer' }] // 绕过gitee图床的防盗链
   ],
   srcDir: './src', // md源目录
   themeConfig: {
@@ -26,8 +27,8 @@ export default defineConfig({
         link: "/操作系统/操作系统导论",
       },
       {
-        text:'OUC课程相关',
-        link:'/OUC课程相关/index'
+        text: 'OUC课程相关',
+        link: '/OUC课程相关/index'
       }
     ],
     sidebar,
