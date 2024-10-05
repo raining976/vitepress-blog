@@ -18,6 +18,9 @@ export default defineConfig({
     publicDir: "../public", // 指定 public 目录路径
   },
   cleanUrls: true,
+  sitemap: {
+    hostname: 'https://blog.raining976.top',
+  },
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     logo: '/logo.svg',
@@ -73,10 +76,6 @@ export default defineConfig({
     search: {
       provider: 'local'
     },
-    sitemap: {
-      hostname: 'https://blog.raining976.top',
-    },
-
 
   },
   // markdown语法配置
