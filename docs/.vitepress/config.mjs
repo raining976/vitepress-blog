@@ -13,7 +13,6 @@ export default defineConfig({
     ['meta', { name: 'googlebot', content: 'index,follow' }]
   ],
   srcDir: './src', // md源目录
-  // outDir: "dist",
   vite: {
     // https://cn.vitejs.dev/config/shared-options.html#publicdir
     publicDir: "../public", // 指定 public 目录路径
@@ -74,27 +73,10 @@ export default defineConfig({
     search: {
       provider: 'local'
     },
-    // sitemap: {
-    //   hostname: 'https://blog.raining976.top',
-
-    // },
-    /* 站点地图 */
-    transformHtml: (_, id, { pageData }) => {
-      if (!/[\\/]404\.html$/.test(id))
-        links.push({
-          url: pageData.relativePath.replace(/((^|\/)index)?\.md$/, '$2'),
-          lastmod: pageData.lastUpdated
-        })
+    sitemap: {
+      hostname: 'https://blog.raining976.top',
     },
-    buildEnd: async ({ outDir }) => {
-      // hostname 为线上域名
-      const sitemap = new SitemapStream({ hostname: 'https://blog.raining976.top/' })
-      const writeStream = createWriteStream(resolve(outDir, 'sitemap.xml'))
-      sitemap.pipe(writeStream)
-      links.forEach((link) => sitemap.write(link))
-      sitemap.end()
-      await new Promise((r) => writeStream.on('finish', r))
-    }
+
 
   },
   // markdown语法配置
