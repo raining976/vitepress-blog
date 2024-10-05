@@ -3,11 +3,11 @@ import sidebar from './configs/sidebar.mjs'
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
   title: "Ra1ning",
-  description: "Ra1ning的小世界 博客 前端 Ra1ning的博客",
+  description: "Ra1ning Ra1ning的小世界 博客 前端 Ra1ning的博客",
   head: [
     ['link', { rel: 'icon', href: '/logo.svg' }],
     ['meta', { name: 'referrer', content: 'no-referrer' }], // 绕过gitee图床的防盗链
-    ['meta', { name: 'keywords', content: 'Ra1ning raining976 Raining HTML5 CSS JavaScript Vue 前端 操作系统 OUC' }],
+    ['meta', { name: 'keywords', content: 'Ra1ning的小世界 Ra1ning raining976 Raining HTML5 CSS JavaScript Vue 前端 操作系统 OUC' }],
     ['meta', { name: 'rebots', content: 'index,follow'}],
     ['meta', { name: 'googlebot', content: 'index,follow'}]
   ],
@@ -74,7 +74,8 @@ export default defineConfig({
       provider: 'local'
     },
     sitemap: {
-      hostname: 'https://blog.raining976.top'
+      hostname: 'https://blog.raining976.top',
+      
     }
 
   },
