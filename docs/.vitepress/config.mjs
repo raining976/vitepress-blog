@@ -13,7 +13,7 @@ export default defineConfig({
     ['meta', { name: 'googlebot', content: 'index,follow' }]
   ],
   srcDir: './src', // md源目录
-  outDir: "dist",
+  // outDir: "dist",
   vite: {
     // https://cn.vitejs.dev/config/shared-options.html#publicdir
     publicDir: "../public", // 指定 public 目录路径
