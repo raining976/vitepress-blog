@@ -39,7 +39,7 @@ function generateSubSidebar(dirPath = './docs/src/', baseUrl = '') {
         } else if (path.extname(file) === '.md') {
             const fileName = path.basename(file, '.md');
             config.push({
-                text: fileName == 'index' ? 'Ra1ning' : fileName,
+                text: fileName == 'index' ? baseUrl : fileName,
                 link: path.join(baseUrl, file),
             });
         }

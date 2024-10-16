@@ -36,8 +36,8 @@ export default defineConfig({
         activeMatch: '/前端/'
       },
       {
-        text: '操作系统',
-        link: "/操作系统/操作系统导论",
+        text: '408',
+        link: "/408/index",
         activeMatch: '/操作系统/'
       },
       {

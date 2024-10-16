@@ -14,11 +14,11 @@ hero:
       text: Font-end
       link: /前端/index.md
     - theme: brand
-      text: Operating system
-      link: /操作系统/操作系统导论.md
+      text: 408
+      link: /408/index.md
     - theme: alt
       text: View on GitHub
-      link: https://github.com/raining976/vitepress-blog
+      link: https://github.com/raining976
 
 features:
   - icon: 😊
