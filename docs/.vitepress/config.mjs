@@ -17,9 +17,9 @@ export default defineConfig({
     // https://cn.vitejs.dev/config/shared-options.html#publicdir
     publicDir: "../public", // 指定 public 目录路径
   },
-  cleanUrls: true,
+  cleanUrls: true, 
   sitemap: {
-    hostname: 'https://blog.raining976.top',
+    hostname: 'https://docs.raining976.top',
   },
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
